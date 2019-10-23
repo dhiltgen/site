@@ -1,0 +1,65 @@
+<div class="container theme-showcase" role="main">
+
+Most of my software projects are the property of my
+employers and the code is not publicly visible.  Many are described on my
+<a href="/daniel/career/">career</a> page.  Here are a few interesting ones
+where the source is public:
+
+</p>
+
+<!-- <h3><a href="http://www.hiltgen.com/automation">Home Automation / Sprinkler Control</a></h3> -->
+<h3>Home Automation / Sprinkler Control</h3>
+
+<p>
+Coupled with some of my
+<a href="/daniel/electronics/">electronics</a> projects, this allows me
+to control sprinkler valves.  Eventually it will
+support adjusting the frequency and duration of watering times based on
+precipitation and temperature.
+</p>
+
+<ul>
+    <li>
+        <a href="https://github.com/dhiltgen/sprinklers">https://github.com/dhiltgen/sprinklers</a>
+    </li>
+</ul>
+
+<h3>NTFS Punch Linux Kernel Module</h3>
+
+This kernel module allows Netkine to mount a disk image file residing
+on an NTFS filesystem that wasn't cleanly unmounted.  When you hibernate
+Windows, or use "fast boot," Windows doesn't do a full flush and unmount
+of the filesystem.  As a result, none of the Linux filesystem drivers
+will mount it read-write (as they shouldn't.)  However, if the file you
+care about is a disk image, and has been fully allocated (not sparse)
+and wasn't being written to on the windows side (or you ensure you flush
+it before shutting down/hibernating) then the blocks on the disk are
+actually "safe."  This kernel module will expose those blocks on the
+disk as another "virtual" block device that can be mounted read-write.
+Typically this file would contain a nested filesystem, such as ext4.
+
+<ul>
+    <li>
+        <a href="https://github.com/Netkine/ntfspunch">https://github.com/Netkine/ntfspunch</a>
+    </li>
+</ul>
+
+<h3>Los Altos High School District</h3>
+
+This data shows the approximate high school district boundaries for
+Los Altos High School.  This was generated in google earth, exported
+as a KMZ, which can then be embedded on a web site using Googles APIs.
+Now why don't the school districts make this information easily available?
+
+<div style="height:400px" id="los-altos-map-canvas"></div>
+
+<h3>Cambrian School District API Scores</h3>
+
+This data is a little old, but shows the approximate elementary school
+district boundaries in the Cambrian area and their API scores from a
+few years ago.
+
+<div style="height:400px" id="cambrian-map-canvas"></div>
+
+</div>
+</div>

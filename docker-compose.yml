@@ -1,0 +1,15 @@
+# Simple dev model to spin up a test instance of the site behind a proxy nginx
+version: "3.0"
+
+services:
+    nginx:
+        image: nginx
+        volumes:
+        - ./dev-nginx.conf:/etc/nginx/nginx.conf:ro
+        - ~/hiltgen.com/blobs/:/blobs/:ro
+        ports:
+        - "80:80"
+
+    site:
+        image: dhiltgen/site
+        command: --site-prefix /daniel

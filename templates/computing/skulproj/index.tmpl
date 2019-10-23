@@ -1,0 +1,219 @@
+<!doctype html public "-//IETF//DTD HTML//EN">
+<HTML>
+
+<HEAD>
+
+<TITLE>Skull Project</TITLE>
+
+<META NAME="AUTHOR" CONTENT="Daniel Hiltgen">
+</HEAD>
+
+<BODY>
+
+<H1 ALIGN="CENTER">Skull Project</H1>
+
+<HR>
+Note: This paper was written in '94 as part of my entrance in
+a CAD/CAM competition where I placed <em>Third </em> in the nation.
+<HR>
+
+<PRE WIDTH=132>
+Skip the text and go directly to the <A HREF="#graphics">graphics</A>. 
+</PRE>
+<HR>
+
+<P>
+In the final days of my junior year in CAM class at Los Gatos
+High School, I was faced with the dilemma of planing a senior
+project for the next year. I was growing bored of 2-D and simple
+3-D projects. I wanted to do something that had swept surfaces,
+and no hard edges. (Not your average CAM project) The most likely
+candidate I could come up with was something from nature. Since
+that my father is a doctor, and that I have fairly easy access
+to the local hospital, I felt that modeling part of the human
+body would be a challenging yet very rewarding project. I chose
+the skull, as it is one of the most interesting anatomical features.
+<P>
+The concept of the project is quite simple. First, take the 2-D
+slices from a CT scan of a human skull, then import them into
+a CAD program (AutoCAD in our case), clean up the images, compile
+them into one file, then create the tool paths in a CAM program
+(MasterCAM in our case). The actual implementation of this idea,
+however, was a little bit more complex.
+<P>
+During the summer between my junior and senior year, I did research
+into my project. I first visited the Nuclear Medicine department
+at the hospital where my father works and consulted with the specialists
+in computerized tomographic scanning (CT or CAT scan). They then
+referred me to a company in Fremont called Cemax, which specializes
+in medical modeling, where I received additional guidance on my
+project to transform raw CT scan data into a file usable by our
+CAM program. Cemax uses powerful SUN computers to run their software.
+They store the CT scans as 3-D Bitmaps, which are unfortunately
+incompatible with any of the software that I have access to. The
+only format that they could output that I could use was in the
+Mac &quot;PICT&quot; format. They provided me with 82 2-Dimensional
+scan slice images making up the skull of a one year old child.
+My first problem was that these slices were unfortunately 2-D
+bitmaps, and <U>not</U> compatible with the vector based images
+that CAD/CAM run on. The solution was to use CorelDraw's tracing
+program. This program takes any bit mapped image, and draws a
+vector wherever a color change occurs. By running this program
+on all 82 slices, I was able to create 82 2-D AutoCAD DXF files.
+I then wrote an AutoLisp (AutoCAD programming language) program
+to compile the 82 slices into a 3-D AutoCAD file. This is where
+I came upon my second problem. AutoCAD is a very powerful CAD
+program, but even on a 486 it's not perfect. My computer has 8
+M.B. of RAM and I have configured AutoCAD to use an additional
+8 M.B. of virtual memory, but to this day, I still can not compile
+all 82 original slices into one file. After about 45 slices, my
+computer locks up because of lack of memory. After being processed
+by CorelDraw just 35 slices compiled together were an astonishing
+4 M.B.. To accomplish anything, I had to work on 10 slices or
+less at a time with my computer. The solution to this problem
+was to &quot;Clean up&quot; the files. When CorelDraw traces a
+bitmap file, it makes hundreds of tiny lines where just a few
+big ones will suffice. I opened each of the 82 files individually
+and traced their outlines with polylines. This reduced the file
+sizes up to ten fold in some cases. The third, and largest of
+my problems then appeared.
+<P>
+The slices of data that I have are very close together, but none-the-less,
+I still have stair-stepping between the slices. There are two
+schools of thought on how to go about increasing the resolution
+of my file. One idea is to use AutoCAD's edgesurf command to create
+solid surfaces between each layer. This concept works great if
+the images in question are boxy, because edgesurfs must have three
+strait edges. But, as I pointed out earlier, the whole reason
+I started this project was to get away from the boxy, man-made
+&quot;Standard&quot; CAM project. So, this left only one feasible
+alternative... mathematically analyzing the layers of information,
+and calculating the average. Sounds easy, right? Wrong! This process
+involves extensive use of Trigonometry, Geometry, and Algebra.
+Luckily at the time I realized I had to manipulate my files, I
+was enrolled in a &quot;C&quot; programming night class. This
+class provided me with the tool to manipulate my files.
+<H3>The basic concept of my program is as follows:</H3>
+
+<OL>
+<LI>Read in the AutoCAD DXF file and convert the ASCII numbers
+to floating point numbers.
+<LI>Create an array of a finite (user specified) number of lines
+passing through the origin.
+<LI>Find the intersection (if any) of the DXF file's lines and
+the array.
+<LI>Discard all old vertexes and keep only the ones that lie on
+the array (discreet thetas).
+<LI>Group the vertexes by theta value (This allows us to look
+at these 3-D points in one plane, and therefore as 2-D points
+relative to that plane)
+<LI>Pick three vertexes and find the 2-D parabola or arc that
+passes through them.
+<LI>Find a user specified number of points that lie on the parabola
+or arc in-between the existing points.
+<LI>Loop for all points on that theta, and all thetas.
+<LI>Re-connect the points on each Z value and create a polyline.
+<LI>Output the polylines to disk in the dxf format.
+</OL>
+
+<P>
+I have been working on this &quot;C&quot; program since December.
+At present I have completed steps 1 through 5 and half of 6. The
+problem I am running into now, is that there is only <U>one</U>
+of me and this program should have a team effort working on it.
+Unfortunately, I do not know anybody else who programs in &quot;C&quot;.
+I am presently enrolled in a &quot;C++&quot; night class at West
+Valley College, and I have discovered that &quot;C++&quot; is
+definitely the <I>way to go</I>. Had I known &quot;C++&quot; in
+December, I would have finished this program already, by myself.
+This project fits into the object oriented way of thinking of
+&quot;C++&quot; much better than the functional way of &quot;C&quot;.
+Due to the impending graduation date (and competition deadlines),
+I have had to put the vector manipulation program down and focus
+my efforts of creating a physical model. This model is by no means
+a finished product, but rather a &quot;Status report.&quot; Due
+do the child's age and the slow bone formation at that age, I
+had to &quot;doctor&quot; the files. Many bone structures were
+too soft to be present in the CT scan. In some areas around the
+eye sockets I had to fabricate almost all of the vectors (bone).
+This is the reason for the anatomical inaccuracies of this model.
+The model exactly represents what the CT scan showed, plus my
+minor additions, so this model is essentially CT WYSIWYG. If an
+adult skull had been used, all of the bone structures would have
+been present, and the final model would be more anatomically correct.
+During the summer I will finish the vector manipulation program,
+and attempt to obtain an adult skull image. All I will need to
+do then is &quot;plug&quot; the file into my program, and let
+it do it's work. This program will be capable of generating almost
+perfect replicas of ANYTHING that you can stick into a CT scanner.
+In the future, I may even write a program that takes the 3-D bitmap
+image from the CT scan and translates it directly into a 3-D vector
+file. All I need to do is get the &quot;specs&quot; from the CT
+manufacturer as to how to read in the file (Much like I did for
+the DXF file format), and I can create a program that will read
+and manipulate the vectors.
+<P>
+O.K., you might be saying, sounds neat, but so what? This project
+is not only a &quot;neat&quot; CAM project for a high school senior,
+but it has enormous ramifications in medicine. This concept, if
+streamlined and perfected can be used to recreate perfect models
+of anything you can CAT scan. Since you need not cut when taking
+a scan, you can create models of bone structures without lifting
+a scalpel. The &quot;old fashioned&quot; way of performing reconstructive
+surgery was to <U>cut</U> open the patient, make a mold of the
+area in question, sew the person back up, make a model of the
+area, analyze this model and determine what coarse of action to
+take, <U>cut</U> the patient open again, and fix the problem.
+Notice the TWO occurrences of the word cut. The first can be completely
+eliminated by using the process I have demonstrated with my project.
+Not only does this save time and money because a surgeon is not
+needed twice, but it also saves the patient from pain and suffering
+during the time between the two surgeries. Some Paleontologists
+are also experimenting with this procedure. They are taking CT
+scans of fossils and making multiple copies to sell to different
+museums. In this way, they are increasing their profit from one
+dig. They are also using this technique to make models of fossils
+that are too fragile to remove from the rock. As long as they
+can fit the whole rock inside the CT scan machine, then they can
+make a model of the fossil without even seeing it. In the future,
+they might even be able to take a scan of the fossil while it's
+still buried below the surface (much like ultrasound). This project
+started out as just a way for me to get away from the normal,
+boxy CAM projects, but has illustrated many of the key reasons
+why CAM is so important to everyone today.<HR>
+
+<H1><A NAME="graphics">Graphics!!</A></H1>
+
+<P>
+<A HREF="{{ .BlobPrefix }}/graphics/slice_8.dxf">Slice 8 (DXF Format)</A> 
+<p>
+<A HREF="{{ .BlobPrefix }}/graphics/slice_25.jpg">Slice 25 (JPEG Format)</A>
+<p>
+(The rest are all photographs of the silicon rubber project)<br>
+<A HREF="{{ .BlobPrefix }}/graphics/complete-wax-stack.jpg">Complete stack of 1" wax slices</A><br>
+<A HREF="{{ .BlobPrefix }}/graphics/rubber-positive-in-wax.jpg">Rubber positive showing through</A><br>
+<A HREF="{{ .BlobPrefix }}/graphics/rubber-positive-smile.jpg">Rubber positive done</A><br>
+<A HREF="{{ .BlobPrefix }}/graphics/rubber-positive.jpg">Working on rubber positive</A><br>
+<A HREF="{{ .BlobPrefix }}/graphics/rubber-positive-in-wood.jpg">Rubber positive in wooden mold</A><br>
+<A HREF="{{ .BlobPrefix }}/graphics/making-rubber-negative-first.jpg">Pouring first half of rubber negative</A><br>
+<A HREF="{{ .BlobPrefix }}/graphics/making-rubber-negative.jpg">Pouring second half of rubber negative</A><br>
+<HR>
+
+
+<H2>Sources of information and Ideas</H2>
+
+<P>
+Ron Cassel @ LGHS<BR>
+Tom Riggons @ Cemax<BR>
+(Others...) 
+
+<HR>
+<PRE>$Id: skulproj.html,v 1.2 1998/01/16 07:34:58 dhiltgen Exp $</PRE>
+<h5>
+( <img src="/cgi-bin/Count.cgi?df=dh_skulproj.dat&trgb=ffffff&ft=0&dd=E&comma=T" alt="xxx"> )
+as of 03/18/99</h5>
+
+
+</BODY>
+
+</HTML>
