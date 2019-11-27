@@ -1,0 +1,15 @@
+# Update/refresh with
+# docker-compose -f site.yml pull
+# docker-compose -f site.yml stop
+# docker-compose -f site.yml rm
+# docker-compose -f site.yml up -d
+
+version: "3.0"
+
+services:
+  site:
+    image: dhiltgen/site
+    command: --site-prefix /daniel
+    restart: always
+    ports:
+    - "8080:8080"

@@ -1,0 +1,17 @@
+# SERVER_NAME=www.hiltgen.com
+
+version: "3.0"
+
+services:
+    web:
+        image: nginx
+        volumes:
+        - .:/code:ro
+        - /home/daniel/hiltgen.com/www:/usr/share/nginx/html:ro
+        env_file:
+        - .env
+        environment:
+        - SERVER_PORT=80
+        command: sh -c 'sed -e "s|%%SERVER_NAME%%|${SERVER_NAME}|g" -e "s|%%SERVER_PORT%%|${SERVER_PORT}|g" /code/nginx.conf > /etc/nginx/conf.d/default.conf && cat /etc/nginx/conf.d/default.conf && nginx -g "daemon off;"'
+        ports:
+        - "80:80"
