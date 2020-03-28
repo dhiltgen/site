@@ -10,13 +10,15 @@ where the source is public:
 <!-- <h3><a href="http://www.hiltgen.com/automation">Home Automation / Sprinkler Control</a></h3> -->
 <h3>Home Automation / Sprinkler Control</h3>
 
-<p>
-Coupled with some of my
-<a href="/daniel/electronics/">electronics</a> projects, this allows me
-to control sprinkler valves.  Eventually it will
-support adjusting the frequency and duration of watering times based on
-precipitation and temperature.
-</p>
+<p> Coupled with some of my <a href="/daniel/electronics/">electronics</a>
+projects, this allows me to control sprinkler valves.  I run a kubernetes
+cluster at my home, and run a number of raspberry pi worker nodes with various
+pieces of home-automation on them.  This particular project adds a sprinkler
+controller and scheduled jobs to trigger the sprinklers to run.  The long-term
+goal for the project is to use TSDB data from rain/temperature sensors I have
+to augment the schedule of the jobs to reduce or increase watering frequency
+and duration to minimize water usage while mainting healthy plants around our
+house.  </p>
 
 <ul>
     <li>
@@ -26,7 +28,7 @@ precipitation and temperature.
 
 <h3>NTFS Punch Linux Kernel Module</h3>
 
-This kernel module allows Netkine to mount a disk image file residing
+This kernel module allowed Netkine to mount a disk image file residing
 on an NTFS filesystem that wasn't cleanly unmounted.  When you hibernate
 Windows, or use "fast boot," Windows doesn't do a full flush and unmount
 of the filesystem.  As a result, none of the Linux filesystem drivers
@@ -44,22 +46,48 @@ Typically this file would contain a nested filesystem, such as ext4.
     </li>
 </ul>
 
-<h3>Los Altos High School District</h3>
+<h3>Computer Vision Object Detection</h3>
 
-This data shows the approximate high school district boundaries for
-Los Altos High School.  This was generated in google earth, exported
-as a KMZ, which can then be embedded on a web site using Googles APIs.
-Now why don't the school districts make this information easily available?
+<p> This little project is building a simple set of tools to post-process
+security video streams to look for objects that are "interesting." Other clips
+that have no interesting objects (e.g., just moving branches, falling rain,
+etc.) are then removed to reduce storage load, and to help find the interesting
+clips for later human viewing.  This supports both CPUs or nvidia GPUs based on
+a conatiner.  </p>
 
-<div style="height:400px" id="los-altos-map-canvas"></div>
+<ul>
+    <li>
+        <a href="https://github.com/dhiltgen/video">https://github.com/dhiltgen/video</a>
+    </li>
+</ul>
 
-<h3>Cambrian School District API Scores</h3>
+<h3>Docker Machine KVM Driver</h3>
 
-This data is a little old, but shows the approximate elementary school
-district boundaries in the Cambrian area and their API scores from a
-few years ago.
+<p>
+This was done during my tenure at Docker Inc., but was an opensource effort, so
+it's worth mentioning here.  With my years of experience with virtualization
+tech between VMWare and Netkine, I was able to quickly build a driver for
+Docker Machine that works with KVM via libvirt.  This driver became quite
+popular in the community.
+</p>
 
-<div style="height:400px" id="cambrian-map-canvas"></div>
+<p> This project is effectively dormant, and has been taken over by a forked
+commnuity effort, as Docker Inc. decided to defund Docker Machine work and
+advised me to stop actively working on it.  Internally in Docker I developed a
+new replacement tool for Docker Machine called <b>testkit</b> which has a
+superior architecture to Docker Machine that facilitates efficiently spinning
+up clusters of VMs locally or on a cloud with support for AWS (spot or
+on-demand), Azure, GCE, or locally with KVM, VirtualBox, VMware, and Hyper-V.
+This effort is closed source so it isn't externally visible or usable.
+<B>Testkit</b> is relied upon heavily for Docker's internal CI/CD testing
+automation to validate every pull request and internal official build.  </p>
+
+<ul>
+    <li>
+        <a href="https://github.com/dhiltgen/docker-machine-kvm">https://github.com/dhiltgen/docker-machine-kvm</a>
+    </li>
+</ul>
+
 
 </div>
 </div>
